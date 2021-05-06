@@ -11,15 +11,18 @@
         <thead>
             <tr>
               <th scope="col">Filename</th>
+              <th scope="col">Download</th>
             </tr>
         </thead>
         <tbody>
             {% for file in files %}
                 <tr>
                     <td>{{ file }}</td>
+                    <td><a href="#" type="button" class="btn btn-light">Скачать</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    <a href="/files/download_all" type="button" class="btn btn-dark">Скачать все файлы</a>
 </body>
 </html>
