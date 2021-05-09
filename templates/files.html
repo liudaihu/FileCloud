@@ -15,10 +15,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for file in files %}
+            {% for f_index in file_indexes %}
                 <tr>
-                    <td>{{ file }}</td>
-                    <td><a href="#" type="button" class="btn btn-light">Скачать</a></td>
+                    <td>{{ files[f_index] }}</td>
+                    <td><a href="/files/{{ f_index }}" type="button" class="btn btn-light">Скачать</a></td>
                 </tr>
             {% endfor %}
         </tbody>
