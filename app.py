@@ -1,7 +1,6 @@
-from flask import *
+from init import *
 from file_manager import files, file_indexes
-
-app = Flask(__name__)
+from db import push_to_db
 
 @app.route("/")
 def main_page():
@@ -20,6 +19,13 @@ def download_file(file_id):
     if file_id in file_indexes:
         return send_file(f"user_files/{files[file_id]}", as_attachment=True, cache_timeout=-1)
     return 'Error 404: Page not found'
+
+@app.route("/files/upload", methods=['POST'])
+def upload_file():
+    f = request.files['inputFile']
+    push_to_db(f)
+
+    return f'File {f.filename} has been pushed to db!'
 
 # stop caching files
 @app.after_request

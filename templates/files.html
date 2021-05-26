@@ -6,6 +6,8 @@
     <title>Your files</title>
 </head>
 <body>
+    <h1>Это - страница с файлами</h1>
+    <a href="/" type="button" class="btn btn-dark">На главную</a>
     <h3>Сейчас в вашей папке лежат следующие файлы:</h3>
     <table class="table table-dark">
         <thead>
@@ -18,11 +20,16 @@
             {% for f_index in file_indexes %}
                 <tr>
                     <td>{{ files[f_index] }}</td>
-                    <td><a href="/files/{{ f_index }}" type="button" class="btn btn-light">Скачать</a></td>
+                    <td><a href="../{{ f_index }}" type="button" class="btn btn-light">Скачать</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="/files/download_all" type="button" class="btn btn-dark">Скачать все файлы</a>
+    <a href="../download_all" type="button" class="btn btn-dark">Скачать все файлы</a>
+    <h3>Загрузите файл:</h3>
+    <form action="/files/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="inputFile">
+        <button type="submit" class="btn btn-dark">Upload</button>
+    </form>
 </body>
 </html>
