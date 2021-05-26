@@ -19,8 +19,8 @@
         <tbody>
             {% for f_index in file_indexes %}
                 <tr>
-                    <td>{{ files[f_index] }}</td>
-                    <td><a href="../{{ f_index }}" type="button" class="btn btn-light">Скачать</a></td>
+                    <td>{{ files[f_index-1] }}</td>
+                    <td><a href="/files/{{ f_index }}" type="button" class="btn btn-light">Скачать</a></td>
                 </tr>
             {% endfor %}
         </tbody>

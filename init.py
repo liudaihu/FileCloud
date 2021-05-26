@@ -2,6 +2,7 @@ from flask import *
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 from termcolor import cprint # delete it from pip
+from io import BytesIO
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://artem:password@localhost:5432/test'

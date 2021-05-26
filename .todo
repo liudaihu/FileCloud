@@ -1,6 +1,10 @@
 FileCloud:
     - Start working with DB @done
     - Make file uploading @done
-    - Make file downloading
-    - Make in-time reloading
+    - Make file downloading @done
+    - Make in-time reloading @done
     - Make file reading
+    - Add async functionality
+    - Add "delete" button
+    - Add "404" page
+    - Remake "Download all files" function

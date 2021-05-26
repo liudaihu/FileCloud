@@ -1,6 +1,8 @@
 from init import *
-from file_manager import files, file_indexes
-from db import push_to_db
+from db import push_to_db, file_indexes, file_names, Files
+
+cprint(file_indexes, color='red')
+cprint(file_names, color='cyan')
 
 @app.route("/")
 def main_page():
@@ -8,16 +10,17 @@ def main_page():
 
 @app.route("/files")
 def files_page():
-    return render_template("files.html", file_indexes=file_indexes, files=files)
+    return render_template("files.html", file_indexes=file_indexes, files=file_names)
 
 @app.route("/files/download_all")
 def download_all():
-    return send_file("user_files/files.zip", as_attachment=True, cache_timeout=-1)
+    return send_file("user_files/files.zip", as_attachment=True)
 
 @app.route("/files/<int:file_id>")
 def download_file(file_id):
     if file_id in file_indexes:
-        return send_file(f"user_files/{files[file_id]}", as_attachment=True, cache_timeout=-1)
+        rf = Files.query.filter_by(id=file_id).first()
+        return send_file(BytesIO(rf.file), attachment_filename=rf.filename, as_attachment=True)
     return 'Error 404: Page not found'
 
 @app.route("/files/upload", methods=['POST'])
@@ -25,12 +28,4 @@ def upload_file():
     f = request.files['inputFile']
     push_to_db(f)
 
-    return f'File {f.filename} has been pushed to db!'
-
-# stop caching files
-@app.after_request
-def after_request(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
+    return redirect(url_for('files_page'))
