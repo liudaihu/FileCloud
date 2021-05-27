@@ -30,7 +30,6 @@ Jinja2==3.0.1
 MarkupSafe==2.0.1
 psycopg2==2.8.6
 SQLAlchemy==1.4.15
-termcolor==1.1.0
 Werkzeug==2.0.1
 ```
 

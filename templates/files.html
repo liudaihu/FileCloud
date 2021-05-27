@@ -14,13 +14,15 @@
             <tr>
               <th scope="col">Filename</th>
               <th scope="col">Download</th>
+              <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
-            {% for f_index in file_indexes %}
+            {% for id in files %}
                 <tr>
-                    <td>{{ files[f_index-1] }}</td>
-                    <td><a href="/files/{{ f_index }}" type="button" class="btn btn-light">Скачать</a></td>
+                    <td>{{ files[id] }}</td>
+                    <td><a href="/files/download/{{ id }}" type="button" class="btn btn-light">Скачать</a></td>
+                    <td><a href="/files/delete/{{ id }}" type="button" class="btn btn-light">Удалить</a></td>
                 </tr>
             {% endfor %}
         </tbody>

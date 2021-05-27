@@ -1,31 +1,42 @@
 from init import *
-from db import push_to_db, file_indexes, file_names, Files
+from models import *
 
-cprint(file_indexes, color='red')
-cprint(file_names, color='cyan')
 
+# errors
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("not_found.html"), 404
+
+# pages
 @app.route("/")
 def main_page():
     return render_template("main.html")
 
 @app.route("/files")
 def files_page():
-    return render_template("files.html", file_indexes=file_indexes, files=file_names)
+    return render_template("files.html", files=file_data)
 
-@app.route("/files/download_all")
-def download_all():
-    return send_file("user_files/files.zip", as_attachment=True)
-
-@app.route("/files/<int:file_id>")
-def download_file(file_id):
-    if file_id in file_indexes:
-        rf = Files.query.filter_by(id=file_id).first()
-        return send_file(BytesIO(rf.file), attachment_filename=rf.filename, as_attachment=True)
-    return 'Error 404: Page not found'
+# Remake this!!!
+# @app.route("/files/download_all")
+# def download_all():
+#     return send_file("user_files/files.zip", as_attachment=True)
 
 @app.route("/files/upload", methods=['POST'])
 def upload_file():
     f = request.files['inputFile']
     push_to_db(f)
-
     return redirect(url_for('files_page'))
+
+@app.route("/files/download/<int:file_id>")
+def download_file(file_id):
+    if str(file_id) in file_data:
+        down_f = download_from_db(file_id)
+        return send_file(BytesIO(down_f.file), attachment_filename=down_f.filename, as_attachment=True)
+    return page_not_found(404)
+
+@app.route("/files/delete/<int:file_id>")
+def delete_file(file_id):
+    if str(file_id) in file_data:
+        delete_from_db(file_id)
+        return redirect(url_for('files_page'))
+    return page_not_found(404)

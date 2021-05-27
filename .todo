@@ -3,8 +3,12 @@ FileCloud:
     - Make file uploading @done
     - Make file downloading @done
     - Make in-time reloading @done
+    - Add "404" page @done
+    - Add "delete" button @done
+        - Add "update id" function @done
     - Make file reading
+    - Make user login
     - Add async functionality
-    - Add "delete" button
-    - Add "404" page
+    - Change DB
+        - Add "time" column
     - Remake "Download all files" function

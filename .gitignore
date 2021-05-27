@@ -1,3 +1,6 @@
-.venv2
+.venv
 __pycache__
 .vscode
+
+requirements.txt
+.~README.md
