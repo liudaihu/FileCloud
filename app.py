@@ -23,20 +23,20 @@ def files_page():
 
 @app.route("/files/upload", methods=['POST'])
 def upload_file():
-    f = request.files['inputFile']
-    push_to_db(f)
+    file = request.files['inputFile']
+    push_to_db(file)
     return redirect(url_for('files_page'))
 
 @app.route("/files/download/<int:file_id>")
 def download_file(file_id):
-    if str(file_id) in file_data:
-        down_f = download_from_db(file_id)
-        return send_file(BytesIO(down_f.file), attachment_filename=down_f.filename, as_attachment=True)
+    if file_id in file_ids:
+        downloaded_file = download_from_db(file_id)
+        return send_file(BytesIO(downloaded_file.file), attachment_filename=downloaded_file.filename, as_attachment=True)
     return page_not_found(404)
 
 @app.route("/files/delete/<int:file_id>")
 def delete_file(file_id):
-    if str(file_id) in file_data:
+    if file_id in file_ids:
         delete_from_db(file_id)
         return redirect(url_for('files_page'))
     return page_not_found(404)

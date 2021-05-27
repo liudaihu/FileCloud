@@ -9,6 +9,7 @@ FileCloud:
     - Make file reading
     - Make user login
     - Add async functionality
-    - Change DB
-        - Add "time" column
+    - Change DB @done
+        - Add "date" column to DB @done
+        - Add "date" column to App @done
     - Remake "Download all files" function
