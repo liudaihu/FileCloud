@@ -1,15 +1,21 @@
-FileCloud:
-    - Start working with DB @done
-    - Make file uploading @done
-    - Make file downloading @done
-    - Make in-time reloading @done
-    - Add "404" page @done
-    - Add "delete" button @done
-        - Add "update id" function @done
-    - Make file reading
-    - Make user login
-    - Add async functionality
-    - Change DB @done
-        - Add "date" column to DB @done
-        - Add "date" column to App @done
-    - Remake "Download all files" function
+# FileCloud
+
+## Backend
+[x] Start working with DB @done
+[x] Make file uploading @done
+[x] Make file downloading @done
+[x] Make in-time reloading @done
+[x] Add "404" page @done
+[x] Add "delete" button @done
+    [x] Add "update id" function @done
+- Make file reading
+- Make user login
+- Add async functionality
+[x] Change DB @done
+    [x] Add "date" column to DB @done
+    [x] Add "date" column to App @done
+- Remake "Download all files" function
+
+## Frontend
+[ ] Add file names to buttons "delete" and "download" alts
+
