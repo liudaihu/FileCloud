@@ -22,8 +22,8 @@
             {% for data in files %}
                 <tr>
                     <td>{{ data[1] }}</td>
-                    <td><a href="/files/download/{{ data[0] }}" type="button" class="btn btn-light">Скачать</a></td>
-                    <td><a href="/files/delete/{{ data[0] }}" type="button" class="btn btn-light">Удалить</a></td>
+                    <td><a href="/files/download/{{ data[0] }}" type="button" class="btn btn-light" alt="Download {{ data[1] }}" title="Download {{ data[1] }}">Скачать</a></td>
+                    <td><a href="/files/delete/{{ data[0] }}" type="button" class="btn btn-light" alt="Delete {{ data[1] }}" title="Delete {{ data[1] }}">Удалить</a></td>
                     <td>{{ data[2] }}</td>
                 </tr>
             {% endfor %}

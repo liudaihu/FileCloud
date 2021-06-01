@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registration page</title>
+</head>
+<body>
+    <form action="/user/register" method="post">
+        <label for="login">Ваш e-mail:</label>
+        <input type="email" name="login"><br><br>
+        
+        <label for="name">Ваше имя:</label>
+        <input type="text" name="name"><br><br>
+
+        <label for="surname">Ваша фамилия:</label>
+        <input type="text" name="surname"><br><br>
+
+        <label for="age">Ваш возраст:</label>
+        <input type="number" name="age"><br><br>
+
+        <label for="gender">Ваш пол:</label>
+        <input type="text" name="gender"><br><br>
+
+        <label for="password">Ваш пароль:</label>
+        <input type="password" name="password"><br><br>
+        
+        <label for="password-repeat">Повторите пароль:</label>
+        <input type="password" name="password-repeat"><br><br>
+
+        <button type="submit" class="btn btn-success">Register</button><br><br>
+    </form>
+
+    {% for msg in get_flashed_messages() %}
+      <p>{{ msg }}</p>
+    {% endfor %}
+
+</body>
+</html>

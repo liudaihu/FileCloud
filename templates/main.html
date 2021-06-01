@@ -6,6 +6,19 @@
     <title>The main page</title>
 </head>
 <body>
+    <!-- header -->
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="/" alt="To the main page" title="To the main page">FileCloud</a>
+        <form class="form-inline">
+            {% if logged_in %}
+                <a href="/user" class="link-light">{{ name }}</a>
+            {% else %}
+                <a href="#" type="button" class="btn btn-light">Sign in</a>
+                <a href="/user/register" type="button" class="btn btn-success">Sign up</a>
+            {% endif %}
+        </form>
+    </nav>
+    <!-- site body -->
     <h1>Это - главная страница</h1>
     <a href="/files" type="button" class="btn btn-dark">Ваши файлы</a>
 </body>
