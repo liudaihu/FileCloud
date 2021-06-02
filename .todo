@@ -16,8 +16,12 @@
     [x] Add user registration
     [x] Add user logout
     [ ] Clear the code
+        [ ] Add lambda functions
     [ ] Add user login
+        [x] Add page with user's login
+        [ ] Add utf-8 support
 [ ] Add async functionality
+[ ] Add files encryption
 [ ] Remake "Download all files" function
 
 ## Frontend

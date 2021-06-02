@@ -1,22 +1,20 @@
 from init import *
 from models import Users, Files
 
-# getting user data when the server starts
-def get_user_data():
+# local functions
+def get_user_logins():
     con = psycopg2.connect(dbname=db_name, user=db_user)
     cur = con.cursor()
-    cur.execute("SELECT id, login FROM users;")
+    cur.execute("SELECT login FROM users;")
     user_data = cur.fetchall()
     cur.close()
     con.close()
 
-    user_ids = []
     user_logins = []
     for elem in user_data:
-        user_ids.append(elem[0])
-        user_logins.append(elem[1])
-    
-    return user_ids, user_logins
+        user_logins.append(elem[0])
+
+    return user_logins
 
 # def get_file_data():
 #     con = psycopg2.connect(dbname=db_name, user=db_user)
@@ -32,22 +30,27 @@ def get_user_data():
 
 #     return file_data, file_ids
 
-global user_ids, user_logins
-user_ids, user_logins = get_user_data()
+global user_logins
+user_logins = get_user_logins()
 # file_data, file_ids = get_file_data()
 
 
 # export functions for working with users
-def register(name, surname, login, password, age, gender):
-    user_id = randint(1, 1000)
-    while user_id in user_ids:
-        user_id = randint(1, 1000)
-    if age == '':
-        age = None
-    user_data = Users(id=user_id, name=name, surname=surname, login=login, password=password, age=age, gender=gender)
+def register(name, surname, email, login, password, age, gender):
+    age = None if age == '' else age
+    user_data = Users(name=name, surname=surname, email=email, login=login, password=password, age=age, gender=gender)
     db.session.add(user_data)
     db.session.commit()
 
+def get_user_data(login):
+    con = psycopg2.connect(dbname=db_name, user=db_user)
+    cur = con.cursor()
+    cur.execute(f"SELECT email, name, surname, age, gender, password FROM users WHERE login = '{login}';")
+    user_data = cur.fetchone()
+    cur.close()
+    con.close()
+
+    return user_data
 
 # export functions for working with files
 # def push_to_db(file):

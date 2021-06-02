@@ -7,15 +7,15 @@ from random import randint
 from datetime import date
 
 
-# db login data
+# db login values
 db_user = "artem"
 db_name = "fcdb"
 
 # just app global variables
-user_ids = None
 user_logins = None
+user_data = None
 logged_in = False
-name = None
+login = None
 
 # flask variables
 app = Flask(__name__)

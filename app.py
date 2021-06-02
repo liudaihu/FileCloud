@@ -1,55 +1,99 @@
 from init import *
-from db_manager import *
+from db_manager import register, get_user_data, user_logins # TODO: do something with this shit!!!
 
 
 # pages
 @app.route("/")
 def main_page():
-    global logged_in, name
-    if 'user' in session:
-        logged_in = True
-        name = session['user']
-    else:
-        logged_in = False
-        name = None
-    return render_template("main.html", logged_in=logged_in, name=name)
+    return render_template("main.html", logged_in=logged_in, login=login)
 
 # user pages
-@app.route("/user")
-def user_page():
-    global logged_in, name
-    if 'user' in session:
-        logged_in = True
-        name = session['user']
-        return render_template("user.html", logged_in=logged_in, name=name)
-    else:
-        logged_in = False
-        name = None
-    return page_not_found(404)
+# @app.route("/" + login.casefold())
+@app.route("/<string:username>")
+def user_page(username):
+    if username == login.casefold() and logged_in:
+        return render_template("user.html", login=login, email=user_data[0], name=user_data[1], surname=user_data[2], age=user_data[3], gender=user_data[4])
+    return abort(404)
 
-@app.route("/user/login")
-def login():
+    # if logged_in:
+    #     print(f"Login - {login}")
+    #     return render_template("user.html", login=login, email=user_data[0], name=user_data[1], surname=user_data[2], age=user_data[3], gender=user_data[4])
+    # return page_not_found(404)
+
+@app.route("/login", methods=['GET', 'POST'])
+def login_page():
+    session.pop('_flashes', None)
+
+    global logged_in, login, user_data
+    if logged_in:
+        return redirect(url_for('main_page'))
+    elif request.method == 'POST':
+        user_data = get_user_data(request.form['login'])
+        if user_data != None:
+            if check_password_hash(user_data[5], request.form['password']):
+                # updating local user data
+                login = request.form['login']
+                session['user'] = login
+                logged_in = True
+                user_data = get_user_data(login)
+                user_logins.append(login)
+
+                return redirect(f'/{login.casefold()}')
+            flash("The password is wrong!", "error")
+        flash("This login is wrong", "error")
     return render_template("login.html")
 
-@app.route("/user/register", methods=['POST', 'GET'])
-def registration():
+@app.route("/register", methods=['POST', 'GET'])
+def registration_page():
     if request.method == "POST":
         session.pop('_flashes', None)
-        if len(request.form['login']) > 5 and len(request.form['password']) > 5 and request.form['password'] == request.form['password-repeat']:
+
+        global logged_in, login, user_data, user_logins
+        # if all is ok
+        if request.form['password'] == request.form['password-repeat'] and request.form['login'] != '' \
+            and request.form['password'] != '' and request.form['login'] not in user_logins and request.form['email'] != '':
             password_hash = generate_password_hash(request.form['password'])
-            register(name=request.form['name'], surname=request.form['surname'], login=request.form['login'],\
-                password=password_hash, age=request.form['age'], gender=request.form['gender'])
-            session['user'] = request.form['login']
-            return redirect(url_for('user_page'))
-        else:
-            flash("There is an error in form inputs!", "error")
+            register(
+                name=request.form['name'],
+                surname=request.form['surname'],
+                email=request.form['email'],
+                login=request.form['login'],
+                password=password_hash,
+                age=request.form['age'],
+                gender=request.form['gender']
+            )
+
+            # updating local user data
+            login = request.form['login']
+            session['user'] = login
+            logged_in = True
+            user_data = get_user_data(login)
+            user_logins.append(login)
+            return redirect(f'/{login.casefold()}')
+
+        # error processing
+        if request.form['password'] != request.form['password-repeat']:
+            flash("Password mismatch!", "error")
+
+        if request.form['login'] == '' or request.form['password'] == '' or request.form['email'] == '': # TODO: add email primary key
+            flash("Please fill the rows with stars!", "error")
+
+        if request.form['login'] in user_logins:
+            flash("We already have user with this login!", "error")
+        
     return render_template("registration.html")
 
-@app.route("/user/logout")
-def logout():
-    session.pop("user", None)
+@app.route("/logout")
+def logout_page():
+    global logged_in, login, user_data
+    session.pop('_flashes', None)
+    # updating local user data
+    session.pop('user', None)
+    logged_in = False
+    login = None
+    user_data = None
     flash("You succesfully logged out!", "info")
-    return redirect(url_for('login'))
+    return redirect(url_for('login_page'))
 
 
 

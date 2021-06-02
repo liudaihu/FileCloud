@@ -11,10 +11,10 @@
         <a class="navbar-brand" href="/" alt="To the main page" title="To the main page">FileCloud</a>
         <form class="form-inline">
             {% if logged_in %}
-                <a href="/user" class="link-light">{{ name }}</a>
+                <a href="/{{ login.lower() }}" class="link-light">{{ login }}</a>
             {% else %}
-                <a href="#" type="button" class="btn btn-light">Sign in</a>
-                <a href="/user/register" type="button" class="btn btn-success">Sign up</a>
+                <a href="/login" type="button" class="btn btn-light">Sign in</a>
+                <a href="/register" type="button" class="btn btn-success">Sign up</a>
             {% endif %}
         </form>
     </nav>
