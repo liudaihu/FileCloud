@@ -33,8 +33,8 @@ def login_page():
                 user.file.data, user.file.ids = get_file_data(user.login)
 
                 return redirect(f'/{user.login.casefold()}')
-            flash("The password is wrong!", "error")
-        flash("This login is wrong", "error")
+            flash("The password is wrong!", "danger")
+        flash("This login is wrong", "danger")
     return render_template("login.html")
 
 @app.route("/register", methods=['POST', 'GET'])
@@ -43,7 +43,7 @@ def registration_page():
         session.pop('_flashes', None)
 
         # if all is ok
-        success = request.form['password'] == request.form['password-repeat'] and request.form['login'] != '' and request.form['password'] != '' and request.form['email'] != '' and request.form['login'].casefold() not in (login.casefold() for login in user_logins) and request.form['email'].casefold() not in (email.casefold() for email in user_emails)
+        success = request.form['password'] == request.form['password-repeat'] and request.form['login'] != '' and request.form['password'] != '' and request.form['email'] != '' and request.form['login'].casefold() not in (login.casefold() for login in user.LOGINS) and request.form['email'].casefold() not in (email.casefold() for email in user.EMAILS)
 
         if success:
             password_hash = generate_password_hash(request.form['password'])
@@ -69,16 +69,16 @@ def registration_page():
 
         # error processing
         if request.form['password'] != request.form['password-repeat']:
-            flash("Password mismatch!", "error")
+            flash("Password mismatch!", "danger")
 
         if request.form['login'] == '' or request.form['password'] == '' or request.form['email'] == '':
-            flash("Please fill the rows with stars!", "error")
+            flash("Please fill the rows with stars!", "danger")
 
         if request.form['login'] in user.LOGINS:
-            flash("We already have user with this login!", "error")
+            flash("We already have user with this login!", "warning")
 
         if request.form['email'] in user.EMAILS:
-            flash("We already have user with this email!", "error")
+            flash("We already have user with this email!", "warning")
         
     return render_template("registration.html")
 
@@ -93,7 +93,7 @@ def logout_page():
     user.data = []
     user.file.data = []
 
-    flash("You succesfully logged out!", "info")
+    flash("You succesfully logged out!", "success")
     return redirect(url_for('login_page'))
 
 
