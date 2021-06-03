@@ -22,8 +22,8 @@
             {% for data in files %}
                 <tr>
                     <td>{{ data[1] }}</td>
-                    <td><a href="/files/download/{{ data[0] }}" type="button" class="btn btn-light" alt="Download {{ data[1] }}" title="Download {{ data[1] }}">Скачать</a></td>
-                    <td><a href="/files/delete/{{ data[0] }}" type="button" class="btn btn-light" alt="Delete {{ data[1] }}" title="Delete {{ data[1] }}">Удалить</a></td>
+                    <td><a href="/{{ username }}/files/download/{{ data[0] }}" type="button" class="btn btn-light" alt="Download {{ data[1] }}" title="Download {{ data[1] }}">Скачать</a></td>
+                    <td><a href="/{{ username }}/files/delete/{{ data[0] }}" type="button" class="btn btn-light" alt="Delete {{ data[1] }}" title="Delete {{ data[1] }}">Удалить</a></td>
                     <td>{{ data[2] }}</td>
                 </tr>
             {% endfor %}
@@ -31,7 +31,8 @@
     </table>
     <a href="../download_all" type="button" class="btn btn-dark">Скачать все файлы</a>
     <h3>Загрузите файл:</h3>
-    <form action="/files/upload" method="post" enctype="multipart/form-data">
+    <!-- TODO: Change this link!!! -->
+    <form action="/{{ username }}/files/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="inputFile">
         <button type="submit" class="btn btn-dark">Upload</button>
     </form>

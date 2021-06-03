@@ -15,11 +15,14 @@
 [o] Make user login
     [x] Add user registration
     [x] Add user logout
-    [ ] Clear the code
-        [ ] Add lambda functions
-    [ ] Add user login
+    [!] Clear the code
+        [-] Add lambda functions
+    [x] Add user login
         [x] Add page with user's login
         [ ] Add utf-8 support
+        [ ] Add login with email
+        [?] Add email sender
+        [ ] Add "remember me" function
 [ ] Add async functionality
 [ ] Add files encryption
 [ ] Remake "Download all files" function
@@ -27,3 +30,4 @@
 ## Frontend
 [x] Add file names to buttons "delete" and "download" alts
 [ ] Add templates
+[!] Add gender atribute in sign up page

@@ -20,6 +20,10 @@
     </nav>
     <!-- site body -->
     <h1>Это - главная страница</h1>
-    <a href="/files" type="button" class="btn btn-dark">Ваши файлы</a>
+    {% if logged_in %}
+    <a href="/{{ login.lower() }}/files" type="button" class="btn btn-dark">Ваши файлы</a>
+    {% else %}
+    <p>Войдите, или зарегистрируйтесь, чтобы увидеть ваши файлы</p>
+    {% endif %}
 </body>
 </html>

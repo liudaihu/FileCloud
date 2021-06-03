@@ -15,3 +15,4 @@ class Files(db.Model):
     filename = db.Column(db.String(40), nullable=False)
     file = db.Column(db.BINARY, nullable=False)
     date = db.Column(db.String(20), nullable=False)
+    owner = db.Column(db.String(40), nullable=False)
