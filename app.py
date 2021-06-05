@@ -1,7 +1,6 @@
 from init import *
 from db_manager import *
 
-
 # pages
 @app.route("/")
 def main_page():
@@ -139,3 +138,8 @@ def delete_file(username, file_id):
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("not_found.html"), 404
+
+# context processors
+@app.context_processor
+def get_login_info():
+    return dict(login=user.login, logged_in=user.logged_in)

@@ -22,12 +22,16 @@
         [ ] Add utf-8 support
         [ ] Add login with email
         [?] Add email sender
+        [x] Add "age not int" exception
         [ ] Add "remember me" function
 [ ] Add async functionality
 [ ] Add files encryption
-[ ] Remake "Download all files" function
+[!] Remake "Download all files" function
+[!] Add "delete account" function
+[ ] Add logging
 
 ## Frontend
 [x] Add file names to buttons "delete" and "download" alts
-[ ] Add templates
-[!] Add gender atribute in sign up page
+[x] Add templates
+[x] Download icons
+[x] Add gender atribute in sign up page

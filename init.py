@@ -1,6 +1,7 @@
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
+import os
 from io import BytesIO
 from werkzeug.security import generate_password_hash, check_password_hash
 from random import randint
@@ -27,7 +28,7 @@ class user:
 
 
 # flask variables
-app = Flask(__name__)
+app = Flask(__name__, static_folder=os.path.abspath('templates/static')) # for css connection
 app.secret_key = 'some_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{psql.user}:password@localhost:5432/{psql.db}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
