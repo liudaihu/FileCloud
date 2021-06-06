@@ -1,37 +1,16 @@
 # FileCloud
 
 ## Backend
-[x] Start working with DB 
-[x] Make file uploading 
-[x] Make file downloading 
-[x] Make in-time reloading 
-[x] Add "404" page 
-[x] Add "delete" button 
-    [x] Add "update id" function 
-[x] Change DB 
-    [x] Add "date" column to DB
-    [x] Add "date" column to App
 [ ] Make file reading
 [o] Make user login
-    [x] Add user registration
-    [x] Add user logout
-    [!] Clear the code
-        [-] Add lambda functions
-    [x] Add user login
-        [x] Add page with user's login
-        [ ] Add utf-8 support
-        [ ] Add login with email
-        [?] Add email sender
-        [x] Add "age not int" exception
-        [ ] Add "remember me" function
+    [ ] Add utf-8 support
+    [ ] Add login via email
+    [?] Add email sender
+    [ ] Add "remember me" function
 [ ] Add async functionality
 [ ] Add files encryption
 [!] Remake "Download all files" function
-[!] Add "delete account" function
+[x] Add "Delete account" function
 [ ] Add logging
 
 ## Frontend
-[x] Add file names to buttons "delete" and "download" alts
-[x] Add templates
-[x] Download icons
-[x] Add gender atribute in sign up page

@@ -22,9 +22,20 @@ class user:
     LOGINS = []
     EMAILS = []
 
+    # functions
+    create = None
+    get_data = None
+    delete = None
+
     class file:
         ids = []
         data = []
+
+        # functions
+        get_data = None
+        push = None
+        download = None
+        delete = None
 
 
 # flask variables

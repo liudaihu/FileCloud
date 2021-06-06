@@ -1,5 +1,5 @@
 from init import *
-from db_manager import *
+import db_manager
 
 # pages
 @app.route("/")
@@ -19,17 +19,17 @@ def login_page():
         return redirect(url_for('main_page'))
     elif request.method == 'POST':
         session.pop('_flashes', None)
-        user.data = get_user_data(request.form['login'])
+        user.data = user.get_data(request.form['login'])
         if user.data != None:
             if check_password_hash(user.data[5], request.form['password']):
                 # updating local user data
                 user.login = request.form['login']
                 session['user'] = user.login
                 user.logged_in = True
-                user.data = get_user_data(user.login)
+                user.data = user.get_data(user.login)
 
                 # updating local file data
-                user.file.data, user.file.ids = get_file_data(user.login)
+                user.file.data, user.file.ids = user.file.get_data(user.login)
 
                 return redirect(f'/{user.login.casefold()}')
             flash("The password is wrong!", "danger")
@@ -46,7 +46,7 @@ def registration_page():
 
         if success:
             password_hash = generate_password_hash(request.form['password'])
-            register(
+            user.create(
                 name=request.form['name'],
                 surname=request.form['surname'],
                 email=request.form['email'],
@@ -60,7 +60,7 @@ def registration_page():
             user.login = request.form['login']
             session['user'] = request.form['login']
             user.logged_in = True
-            user.data = get_user_data(request.form['login'])
+            user.data = user.get_data(request.form['login'])
             user.LOGINS.append(request.form['login'])
             user.EMAILS.append(request.form['email'])
 
@@ -96,6 +96,22 @@ def logout_page():
     return redirect(url_for('login_page'))
 
 
+@app.route("/delete-account")
+def delete_account():
+    session.pop('_flashes', None)
+
+    # updating local user data
+    session.pop('user', None)
+    user.logged_in = False
+    user.data = []
+    user.file.data = []
+
+    user.delete(user.login)
+    user.login = ''
+
+    flash("You succesfully deleted your account!", "success")
+    return redirect(url_for('login_page'))
+
 # file pages
 @app.route("/<string:username>/files")
 def files_page(username):
@@ -112,24 +128,24 @@ def files_page(username):
 def upload_file(username):
     if username == user.login.casefold() and user.logged_in:
         file = request.files['inputFile']
-        push_to_db(file, user.login)
+        user.file.push(file, user.login)
 
         # updating local file data
-        user.file.data, user.file.ids = get_file_data(user.login)
+        user.file.data, user.file.ids = user.file.get_data(user.login)
         return redirect(f"/{username}/files")
     return abort(404)
 
 @app.route("/<string:username>/files/download/<int:file_id>")
 def download_file(username, file_id):
     if username == user.login.casefold() and user.logged_in and file_id in user.file.ids:
-        file = download_from_db(file_id)
+        file = user.file.download(file_id)
         return send_file(BytesIO(file.file), attachment_filename=file.filename, as_attachment=True)
     return abort(404)
 
 @app.route("/<string:username>/files/delete/<int:file_id>")
 def delete_file(username, file_id):
     if username == user.login.casefold() and user.logged_in and file_id in user.file.ids:
-        delete_from_db(file_id)
+        user.file.delete(file_id)
         return redirect(f"/{username}/files")
     return abort(404)
 
