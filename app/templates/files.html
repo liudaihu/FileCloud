@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>This is the files page</h1>
-    <h3>You have this files in your cloud now:</h3>
+    <h3>You have this files on your disk right now:</h3>
     <table class="table table-dark">
         <thead>
             <tr>
@@ -15,12 +15,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for data in files %}
+            {% for file in files %}
                 <tr>
-                    <td>{{ data[1] }}</td>
-                    <td><a href="/{{ username }}/files/download/{{ data[0] }}" type="button" class="btn btn-light" alt="Download {{ data[1] }}" title="Download {{ data[1] }}">Download</a></td>
-                    <td><a href="/{{ username }}/files/delete/{{ data[0] }}" type="button" class="btn btn-light" alt="Delete {{ data[1] }}" title="Delete {{ data[1] }}">Delete</a></td>
-                    <td>{{ data[2] }}</td>
+                    <td>{{ file.filename }}</td>
+                    <td><a href="/{{ username }}/files/download/{{ file.id }}" type="button" class="btn btn-light" alt="Download {{ file.filename }}" title="Download {{ file.filename }}">Download</a></td>
+                    <td><a href="/{{ username }}/files/delete/{{ file.id }}" type="button" class="btn btn-light" alt="Delete {{ file.filename }}" title="Delete {{ file.filename }}">Delete</a></td>
+                    <td>{{ file.date }}</td>
                 </tr>
             {% endfor %}
         </tbody>

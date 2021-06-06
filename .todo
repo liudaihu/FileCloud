@@ -11,6 +11,8 @@
 [ ] Add files encryption
 [!] Remake "Download all files" function
 [x] Add "Delete account" function
-[ ] Add logging
+[!] Add logging
+[!] Clear imports
+[ ] Add deleting files when account deleted
 
 ## Frontend
