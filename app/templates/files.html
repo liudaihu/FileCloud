@@ -18,8 +18,8 @@
             {% for file in files %}
                 <tr>
                     <td>{{ file.filename }}</td>
-                    <td><a href="/{{ username }}/files/download/{{ file.id }}" type="button" class="btn btn-light" alt="Download {{ file.filename }}" title="Download {{ file.filename }}">Download</a></td>
-                    <td><a href="/{{ username }}/files/delete/{{ file.id }}" type="button" class="btn btn-light" alt="Delete {{ file.filename }}" title="Delete {{ file.filename }}">Delete</a></td>
+                    <td><a href="/{{ user_id }}/files/download/{{ file.id }}" type="button" class="btn btn-light" alt="Download {{ file.filename }}" title="Download {{ file.filename }}">Download</a></td>
+                    <td><a href="/{{ user_id }}/files/delete/{{ file.id }}" type="button" class="btn btn-light" alt="Delete {{ file.filename }}" title="Delete {{ file.filename }}">Delete</a></td>
                     <td>{{ file.date }}</td>
                 </tr>
             {% endfor %}
@@ -27,15 +27,10 @@
     </table>
     <a href="../download_all" type="button" class="btn btn-dark">Download all files</a>
     <h3>Download file:</h3>
-    <form action="/{{ username }}/files/upload" method="post" enctype="multipart/form-data">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Upload</span>
-            </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
-          </div>              
+    <form action="/{{ user_id }}/files/upload" method="post" enctype="multipart/form-data">
+      <div class="input-group">
+        <input type="file" class="form-control" name="inputFile" aria-label="Choose file">
+        <button class="btn btn-outline-secondary" type="submit">Upload</button>
+      </div>
     </form>
 {% endblock %}
