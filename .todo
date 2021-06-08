@@ -6,7 +6,7 @@
     [ ] Add utf-8 support
     [ ] Add login via email
     [?] Add email sender
-    [ ] Add "remember me" function
+    [x] Add "remember me" function
 [ ] Add async functionality
 [ ] Add files encryption
 [!] Remake "Download all files" function

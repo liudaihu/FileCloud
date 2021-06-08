@@ -29,16 +29,17 @@ def user_page(user_id):
 def login_page():
     if current_user.is_authenticated:
         return redirect(f"/{current_user.id}")
-    if request.method == 'POST':
+    elif request.method == 'POST':
         session.pop('_flashes', None)
 
         login = request.form.get("login")
         password = request.form.get("password")
+        remember_me = request.form.get("remember_me") != None
 
         if login and password:
             user = Users.query.filter_by(login=login).first()
             if user and check_password_hash(user.password, password):
-                login_user(user)
+                login_user(user, remember=remember_me)
                 flash("You has been succesfully logged in!", "success")
                 return redirect(url_for("main_page"))
             elif not check_password_hash(user.password, password):
