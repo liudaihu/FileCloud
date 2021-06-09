@@ -2,16 +2,16 @@
 
 ## Backend
 [-] Make file reading
-[o] Make user login
-    [ ] Add utf-8 support
-    [ ] Add login via email
-    [?] Add email sender
+[x] Make user login
+    [x] Add utf-8 support
+    [x] Add login via email
+    [-] Add email sender
     [x] Add "remember me" function
 [-] Add async functionality
 [ ] Add files encryption
 [!] Remake "Download all files" function
 [x] Add "Delete account" function
-[ ] Add logging
+[?] Add logging
 [x] Clear imports
 [x] Remove '/' errors
 [x] Change user id from int to varchar 

@@ -28,19 +28,20 @@ def login_page():
     if current_user.is_authenticated:
         return redirect(f"/{current_user.id}")
     elif request.method == 'POST':
-        username = request.form.get("username")
+        login = request.form.get("login")
         password = request.form.get("password")
         remember_me = request.form.get("remember_me") != None
 
-        if username and password:
-            user = Users.query.filter_by(username=username).first()
+        if login and password:
+            user = get_user_login_data(login)
             if user:
                 if check_password_hash(user.password, password):
                     login_user(user, remember=remember_me)
                     flash("You has been succesfully logged in!", "success")
                     return redirect(url_for("main_page"))
                 flash("The password is wrong!", "danger")
-            flash("There is no user with this username!", "danger")
+                return render_template("login.html")    
+            flash("There is no user with this username or email!", "danger")
             return render_template("login.html")
         flash("Fill the username and password rows!", "warning")
     return render_template("login.html")

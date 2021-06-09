@@ -21,15 +21,18 @@ You need to install pip 21 (recommended version).
 You need to install this packages with pip:
 
 ```bash
+blinker==1.4
 click==8.0.1
 Flask==2.0.1
+Flask-Login==0.5.0
+Flask-Mail==0.9.1
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
-psycopg2==2.8.6
-SQLAlchemy==1.4.15
+psycopg2-binary==2.8.6
+SQLAlchemy==1.4.17
 Werkzeug==2.0.1
 ```
 

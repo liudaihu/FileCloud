@@ -25,11 +25,17 @@ def generate_user_id():
         user_id = generate_random_key()
     return user_id
 
+def get_user_login_data(login):
+    data = Users.query.filter_by(username=login).first()
+    if not data:
+        data = Users.query.filter_by(email=login).first()
+        if not data:
+            return None
+    return data
+
 def create_user(pswd, name, surname, email, username, age, gender):
     user_id = generate_user_id()
     pswd_hash = generate_password_hash(pswd)
-
-    print(user_id)
 
     user = Users(id=user_id, name=name, surname=surname, email=email, username=username, password=pswd_hash, age=age, gender=gender)
     db.session.add(user)
@@ -102,7 +108,7 @@ def get_template_data(user):
 
 __all__ = [
     # user_functions
-    "create_user", "del_user", "all_fields_match", "flash_fields_errors",
+    "get_user_login_data", "create_user", "del_user", "all_fields_match", "flash_fields_errors",
     # files_functions
     "upload_file", "del_file",
     # app_functions
