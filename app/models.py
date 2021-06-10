@@ -22,4 +22,9 @@ class Files(db.Model):
     owner = db.Column(db.String(16), nullable=False)
 
 
-__all__ = ["Users", "Files"]
+class Keys(db.Model):
+    owner = db.Column(db.String(16), primary_key=True, nullable=False)
+    key = db.Column(db.Text, unique=True, nullable=False)
+
+
+__all__ = ["Users", "Files", "Keys"]

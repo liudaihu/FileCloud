@@ -22,16 +22,18 @@ You need to install this packages with pip:
 
 ```bash
 blinker==1.4
+cffi==1.14.5
 click==8.0.1
+cryptography==3.4.7
 Flask==2.0.1
 Flask-Login==0.5.0
-Flask-Mail==0.9.1
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
 psycopg2-binary==2.8.6
+pycparser==2.20
 SQLAlchemy==1.4.17
 Werkzeug==2.0.1
 ```

@@ -1,6 +1,8 @@
 from random import randint, choice
 from string import ascii_letters, digits
 from werkzeug.security import generate_password_hash
+from io import BytesIO
+from cryptography.fernet import Fernet
 from datetime import date
 
 from app import db
@@ -25,6 +27,18 @@ def generate_user_id():
         user_id = generate_random_key()
     return user_id
 
+def generate_user_key(user_id):
+    key = Fernet.generate_key()
+    key = key.decode('utf-8')
+    user_key = Keys(owner=user_id, key=key)
+    db.session.add(user_key)
+    db.session.commit()
+
+def get_user_key(user_id):
+    key = Keys.query.filter_by(owner=user_id).first()
+    key = bytes(key.key, 'utf-8')
+    return key
+
 def get_user_login_data(login):
     data = Users.query.filter_by(username=login).first()
     if not data:
@@ -46,6 +60,7 @@ def create_user(pswd, name, surname, email, username, age, gender):
 def del_user(user):
     Users.query.filter_by(id=user.id).delete()
     Files.query.filter_by(owner=user.id).delete()
+    Keys.query.filter_by(owner=user.id).delete()
     db.session.commit()
 
 def all_fields_match(pswd, pswd_repeat, email, username):
@@ -79,14 +94,32 @@ def generate_file_id():
         file_id = generate_random_key()
     return file_id
 
+def encrypt_file(read_file, key):
+    fernet = Fernet(key)
+    enc = fernet.encrypt(read_file)
+    return enc
+
+def decrypt_file(read_file, key):
+    fernet = Fernet(key)
+    dec = fernet.decrypt(read_file)
+    return dec
+
 def upload_file(owner, file):
     file_id = generate_file_id()
 
     creation_date = (date.today()).strftime("%d %B, %Y")
 
-    data = Files(id=file_id, filename=file.filename, file=file.read(), date=creation_date, owner=owner)
+    key = get_user_key(owner)
+
+    data = Files(id=file_id, filename=file.filename, file=encrypt_file(file.read(), key), date=creation_date, owner=owner)
     db.session.add(data)
     db.session.commit()
+
+def download_file(owner, read_file):
+    key = get_user_key(owner)
+
+    file = BytesIO(decrypt_file(read_file, key))
+    return file
 
 def del_file(owner, file_id):
     Files.query.filter_by(id=file_id, owner=owner).delete()
@@ -108,9 +141,9 @@ def get_template_data(user):
 
 __all__ = [
     # user_functions
-    "get_user_login_data", "create_user", "del_user", "all_fields_match", "flash_fields_errors",
+    "generate_user_key", "get_user_key", "get_user_login_data", "create_user", "del_user", "all_fields_match", "flash_fields_errors",
     # files_functions
-    "upload_file", "del_file",
+    "upload_file", "download_file", "del_file",
     # app_functions
     "get_template_data"
 ]

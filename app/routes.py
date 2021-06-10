@@ -1,6 +1,5 @@
 from flask import *
 from flask_login import login_user, login_required, logout_user, current_user
-from io import BytesIO
 from werkzeug.security import check_password_hash
 
 from app import app, db, login_manager
@@ -17,17 +16,16 @@ def main_page():
 @app.route("/<string:user_id>/")
 @login_required
 def user_page(user_id):
-    session.pop("_flashes", None)
     if user_id == current_user.id:
         return render_template("user.html", username=current_user.username, email=current_user.email, name=current_user.name, surname=current_user.surname, age=current_user.age, gender=current_user.gender)
     return abort(403)
 
 @app.route("/login/", methods=['GET', 'POST'])
 def login_page():
-    session.pop("_flashes", None)
     if current_user.is_authenticated:
         return redirect(f"/{current_user.id}")
     elif request.method == 'POST':
+        session.pop("_flashes", None)
         login = request.form.get("login")
         password = request.form.get("password")
         remember_me = request.form.get("remember_me") != None
@@ -48,8 +46,9 @@ def login_page():
 
 @app.route("/register/", methods=['POST', 'GET'])
 def registration_page():
-    session.pop("_flashes", None)
     if request.method == "POST":
+        session.pop("_flashes", None)
+
         name = request.form['name']
         surname = request.form['surname']
         age = request.form['age']
@@ -68,6 +67,7 @@ def registration_page():
             user = create_user(password, name, surname, email, username, age, gender)
 
             login_user(user)
+            generate_user_key(user.id)
 
             flash("You has been succesfully registered!", "success")
             return redirect(url_for("main_page"))
@@ -81,7 +81,6 @@ def registration_page():
 @app.route("/logout/")
 @login_required
 def logout_page():
-    session.pop("_flashes", None)
     logout_user()
     flash("You succesfully logged out!", "success")
     return redirect(url_for('login_page'))
@@ -89,7 +88,6 @@ def logout_page():
 @app.route("/delete-account/")
 @login_required
 def delete_account_page():
-    session.pop("_flashes", None)
     del_user(current_user)
     logout_user()
 
@@ -107,7 +105,7 @@ def files_page(user_id):
         return render_template("files.html", files=files)
     return abort(403)
 
-# Remake this!!!
+# TODO: Remake this!!!
 # @app.route("/files/download_all/")
 # def download_all_files_page():
 #     return send_file("user_files/files.zip", as_attachment=True)
@@ -127,18 +125,17 @@ def upload_file_page(user_id):
 @app.route("/<string:user_id>/files/download/<string:file_id>/")
 @login_required
 def download_file_page(user_id, file_id):
-    session.pop("_flashes", None)
     if user_id == current_user.id:
         file = Files.query.filter_by(id=file_id, owner=user_id).first()
         if file != None:
-            return send_file(BytesIO(file.file), attachment_filename=file.filename, as_attachment=True)
+            dec_file = download_file(user_id, file.file)
+            return send_file(dec_file, attachment_filename=file.filename, as_attachment=True)
         return abort(404)
     return abort(403)
 
 @app.route("/<string:user_id>/files/delete/<string:file_id>/")
 @login_required
 def delete_file_page(user_id, file_id):
-    session.pop("_flashes", None)
     if user_id == current_user.id:
         del_file(user_id, file_id)
         flash(f"File has been succesfully deleted!", "success")

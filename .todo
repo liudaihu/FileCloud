@@ -1,21 +1,8 @@
 # FileCloud
 
 ## Backend
-[-] Make file reading
-[x] Make user login
-    [x] Add utf-8 support
-    [x] Add login via email
-    [-] Add email sender
-    [x] Add "remember me" function
-[-] Add async functionality
-[ ] Add files encryption
+[x] Add files encryption
 [!] Remake "Download all files" function
-[x] Add "Delete account" function
 [?] Add logging
-[x] Clear imports
-[x] Remove '/' errors
-[x] Change user id from int to varchar 
-[x] Add deleting files when account deleted
-
+[ ] Clear the code
 ## Frontend
-[x] Change 'login' to 'username'
