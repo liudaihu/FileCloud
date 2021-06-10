@@ -1,13 +1,13 @@
 from random import randint, choice
 from string import ascii_letters, digits
-from werkzeug.security import generate_password_hash
+from flask_bcrypt import generate_password_hash
 from io import BytesIO
 import zipfile
 from time import time, localtime
 from cryptography.fernet import Fernet
 from datetime import date
 
-from app import db
+from app import db, salt
 from app.models import *
 
 
@@ -55,10 +55,10 @@ def get_user_login_data(login):
 
 def create_user(pswd, name, surname, email, username, age, gender):
     user_id = generate_user_id()
-    pswd_hash = generate_password_hash(pswd)
+    pswd_hash = generate_password_hash(pswd+salt)
 
     user = Users(id=user_id, name=name, surname=surname, email=email,
-                 username=username, password=pswd_hash, age=age, gender=gender)
+                 username=username, password=pswd_hash.decode('utf-8'), age=age, gender=gender)
     db.session.add(user)
     db.session.commit()
 

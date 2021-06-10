@@ -17,7 +17,7 @@
     <a class="navbar-brand" href="/" alt="To the main page" id="headerTitle" title="To the main page">FileCloud</a>
     <form class="form-inline">
       {% if logged_in %}
-      <a href="/{{ user_id }}" id="headerUserLink" class="link-light">
+      <a href="/{{ user_id }}/" id="headerUserLink" class="link-light">
         <svg xmlns="{{ url_for('static', filename='icons/person-circle.csv')}}" width="16" height="16"
           fill="currentColor" id="headerIcon" class="bi bi-person-circle" viewBox="0 0 16 16">
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
@@ -26,8 +26,8 @@
         </svg>{{ username }}
       </a>
       {% else %}
-      <a href="/login" type="button" id="loginButton" class="btn btn-light">Sign in</a>
-      <a href="/register" type="button" id="registerButton" class="btn btn-success">Sign up</a>
+      <a href="/login/" type="button" id="loginButton" class="btn btn-light">Sign in</a>
+      <a href="/register/" type="button" id="registerButton" class="btn btn-success">Sign up</a>
       {% endif %}
     </form>
   </nav>

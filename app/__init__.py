@@ -3,7 +3,6 @@ import os
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-# import psycopg2 # TODO: turn it on!!!
 
 
 # values for working with db
@@ -20,6 +19,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{db_user}:{db_password}@{
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+
+salt = os.getenv('salt')
 
 from app import models, routes, functions
 

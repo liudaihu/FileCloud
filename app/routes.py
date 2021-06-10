@@ -1,8 +1,8 @@
 from flask import *
 from flask_login import login_user, login_required, logout_user, current_user
-from werkzeug.security import check_password_hash
+from flask_bcrypt import check_password_hash
 
-from app import app, db, login_manager
+from app import app, db, login_manager, salt
 from app.models import *
 from app.functions import *
 
@@ -28,14 +28,14 @@ def login_page():
         return redirect(f"/{current_user.id}")
     elif request.method == 'POST':
         session.pop("_flashes", None)
-        login = request.form.get("login")
-        password = request.form.get("password")
+        login = request.form.get("login").replace(' ', '')
+        password = request.form.get("password").replace(' ', '')
         remember_me = request.form.get("remember_me") != None
 
         if login and password:
             user = get_user_login_data(login)
             if user:
-                if check_password_hash(user.password, password):
+                if check_password_hash(user.password, password+salt):
                     login_user(user, remember=remember_me)
                     flash("You has been succesfully logged in!", "success")
                     return redirect(url_for("main_page"))
@@ -52,13 +52,13 @@ def registration_page():
     if request.method == "POST":
         session.pop("_flashes", None)
 
-        name = request.form['name']
-        surname = request.form['surname']
+        name = request.form['name'].replace(' ', '')
+        surname = request.form['surname'].replace(' ', '')
         age = request.form['age']
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        password_repeat = request.form['password-repeat']
+        username = request.form['username'].replace(' ', '')
+        email = request.form['email'].replace(' ', '')
+        password = request.form['password'].replace(' ', '')
+        password_repeat = request.form['password-repeat'].replace(' ', '')
 
         # remove exceptions
         try:

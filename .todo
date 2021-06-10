@@ -5,5 +5,7 @@
 [x] Remake "Download all files" function
 [?] Add logging
 [!] Crypt the keys
+[x] Add salt to passwords
+[ ] Clear requirements
 [x] Clear the code
 ## Frontend
