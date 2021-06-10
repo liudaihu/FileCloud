@@ -3,10 +3,10 @@
 {% block title %}The main page{% endblock %}
 
 {% block content%}
-    <h1>This is the main page</h1>
-    {% if logged_in %}
-    <a href="/{{ user_id }}/files" type="button" class="btn btn-dark">Your files</a>
-    {% else %}
-    <p>Sign in or sign up to see your files</p>
-    {% endif %}
+<h1>This is the main page</h1>
+{% if logged_in %}
+<a href="/{{ user_id }}/files" type="button" class="btn btn-dark">Your files</a>
+{% else %}
+<p>Sign in or sign up to see your files</p>
+{% endif %}
 {% endblock %}

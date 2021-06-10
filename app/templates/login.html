@@ -3,18 +3,20 @@
 {% block title %}Login page{% endblock %}
 
 {% block content %}
-    <h1>Login page</h1>
-    <form action="/login" method="post">
-      <div class="input-group mb-3">
-        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/at.svg')}}" width="16" height="16"></object></span> 
-        <input type="text" class="form-control" placeholder="Username or email" name="login">
-      </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/shield-lock.svg')}}" width="16" height="16"></object></span>
-        <input type="password" class="form-control" placeholder="Password" name="password">
-      </div>
-      <input type="checkbox" name="remember_me">
-      <label for="keep-session">Remember me</label><br><br>
-      <button type="submit" class="btn btn-success">Sign in</button><br><br>
-    </form>
+<h1>Login page</h1>
+<form action="/login" method="post">
+  <div class="input-group mb-3">
+    <span class="input-group-text"><object data="{{ url_for('static', filename='icons/at.svg')}}" width="16"
+        height="16"></object></span>
+    <input type="text" class="form-control" placeholder="Username or email" name="login">
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text"><object data="{{ url_for('static', filename='icons/shield-lock.svg')}}" width="16"
+        height="16"></object></span>
+    <input type="password" class="form-control" placeholder="Password" name="password">
+  </div>
+  <input type="checkbox" name="remember_me">
+  <label for="keep-session">Remember me</label><br><br>
+  <button type="submit" class="btn btn-success">Sign in</button><br><br>
+</form>
 {% endblock %}

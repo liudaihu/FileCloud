@@ -2,7 +2,7 @@
 
 ## Backend
 [x] Add files encryption
-[!] Remake "Download all files" function
+[x] Remake "Download all files" function
 [?] Add logging
 [ ] Clear the code
 ## Frontend

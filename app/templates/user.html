@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}User page{% endblock %}
-    
+
 {% block content %}
-    <h1>Hello, {{ username }}!</h1>
-      <h3>Your data:</h3>
-        <p>Username: {{ username }}</p>
-        <p>Name: {{ name }}</p>
-        <p>Surname: {{ surname }}</p>
-        <p>Age: {{ age }}</p>
-        <p>Gender: {{ gender }}</p>
-        <p>Email: {{ email }}</p><br>
-    <a href="/logout" type="button" class="btn btn-warning">Exit account</a>
-    <a href="/delete-account" type="button" class="btn btn-danger">Delete account</a>
+<h1>Hello, {{ username }}!</h1>
+<h3>Your data:</h3>
+<p>Username: {{ username }}</p>
+<p>Name: {{ name }}</p>
+<p>Surname: {{ surname }}</p>
+<p>Age: {{ age }}</p>
+<p>Gender: {{ gender }}</p>
+<p>Email: {{ email }}</p><br>
+<a href="/logout" type="button" class="btn btn-warning">Exit account</a>
+<a href="/delete-account" type="button" class="btn btn-danger">Delete account</a>
 {% endblock %}

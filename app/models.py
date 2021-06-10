@@ -14,6 +14,7 @@ class Users(db.Model, UserMixin):
     username = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(512), nullable=False)
 
+
 class Files(db.Model):
     id = db.Column(db.String(16), primary_key=True, nullable=False)
     filename = db.Column(db.String(64), nullable=False)
