@@ -4,5 +4,6 @@
 [x] Add files encryption
 [x] Remake "Download all files" function
 [?] Add logging
-[ ] Clear the code
+[!] Crypt the keys
+[x] Clear the code
 ## Frontend

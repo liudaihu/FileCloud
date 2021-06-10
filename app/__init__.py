@@ -1,9 +1,9 @@
 import os
 
-from flask import *
+from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-import psycopg2
+# import psycopg2 # TODO: turn it on!!!
 
 
 # values for working with db

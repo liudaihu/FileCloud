@@ -141,8 +141,10 @@ def upload_file(owner, file):
 
     key = get_user_key(owner)
 
-    data = Files(id=file_id, filename=file.filename, file=encrypt_file(
-        file.read(), key), date=creation_date, owner=owner)
+    enc_file = encrypt_file(file.read(), key)
+
+    data = Files(id=file_id, filename=file.filename,
+                 file=enc_file, date=creation_date, owner=owner)
     db.session.add(data)
     db.session.commit()
 
