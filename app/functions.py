@@ -7,7 +7,7 @@ from time import time, localtime
 from cryptography.fernet import Fernet
 from datetime import date
 
-from app import db, salt
+from app import db, SALT
 from app.models import *
 
 
@@ -55,7 +55,7 @@ def get_user_login_data(login):
 
 def create_user(pswd, name, surname, email, username, age, gender):
     user_id = generate_user_id()
-    pswd_hash = generate_password_hash(pswd+salt)
+    pswd_hash = generate_password_hash(pswd+SALT)
 
     user = Users(id=user_id, name=name, surname=surname, email=email,
                  username=username, password=pswd_hash.decode('utf-8'), age=age, gender=gender)

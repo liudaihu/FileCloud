@@ -4,8 +4,9 @@
 [x] Add files encryption
 [x] Remake "Download all files" function
 [?] Add logging
-[!] Crypt the keys
+[!] Add key salt
+[x] Rebase 'key' table to sqlite3
 [x] Add salt to passwords
-[ ] Clear requirements
+[x] Clear requirements
 [x] Clear the code
 ## Frontend

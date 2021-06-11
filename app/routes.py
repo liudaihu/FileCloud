@@ -2,7 +2,7 @@ from flask import *
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_bcrypt import check_password_hash
 
-from app import app, db, login_manager, salt
+from app import app, db, login_manager, SALT
 from app.models import *
 from app.functions import *
 
@@ -35,7 +35,7 @@ def login_page():
         if login and password:
             user = get_user_login_data(login)
             if user:
-                if check_password_hash(user.password, password+salt):
+                if check_password_hash(user.password, password+SALT):
                     login_user(user, remember=remember_me)
                     flash("You has been succesfully logged in!", "success")
                     return redirect(url_for("main_page"))

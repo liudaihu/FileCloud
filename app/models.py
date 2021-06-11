@@ -5,6 +5,7 @@ from app import db
 
 # Models
 class Users(db.Model, UserMixin):
+    __bind_key__ = 'users_and_files'
     id = db.Column(db.String(16), primary_key=True, nullable=False)
     name = db.Column(db.String(64))
     surname = db.Column(db.String(64))
@@ -16,6 +17,7 @@ class Users(db.Model, UserMixin):
 
 
 class Files(db.Model):
+    __bind_key__ = 'users_and_files'
     id = db.Column(db.String(16), primary_key=True, nullable=False)
     filename = db.Column(db.String(64), nullable=False)
     file = db.Column(db.BINARY, nullable=False)
@@ -24,6 +26,7 @@ class Files(db.Model):
 
 
 class Keys(db.Model):
+    __bind_key__ = 'keys'
     owner = db.Column(db.String(16), primary_key=True, nullable=False)
     key = db.Column(db.Text, unique=True, nullable=False)
 
