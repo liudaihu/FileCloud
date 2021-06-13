@@ -4,7 +4,8 @@
 [x] Add files encryption
 [x] Remake "Download all files" function
 [?] Add logging
-[!] Add key salt
+[-] Add key salt
+[x] Use secure filename
 [x] Rebase 'key' table to sqlite3
 [x] Add salt to passwords
 [x] Clear requirements

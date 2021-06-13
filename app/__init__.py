@@ -16,6 +16,9 @@ db_port = "5432"
 db_path = "/mnt/c/Users/artte/Desktop/db.sqlite3"
 
 
+# system environment variables
+SALT = os.getenv('SALT')
+
 # flask variables
 app = Flask(__name__, static_folder=os.path.abspath(
     'app/templates/static'))  # for static files connection
@@ -26,11 +29,9 @@ app.config['SQLALCHEMY_BINDS'] = {
 }
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 login_manager = LoginManager(app)
 
-
-# system environments
-SALT = os.getenv('SALT')
 
 from app import models, routes, functions
 

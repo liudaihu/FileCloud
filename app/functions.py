@@ -1,6 +1,7 @@
 from random import randint, choice
 from string import ascii_letters, digits
 from flask_bcrypt import generate_password_hash
+from werkzeug.utils import secure_filename
 from io import BytesIO
 import zipfile
 from time import time, localtime
@@ -143,7 +144,9 @@ def upload_file(owner, file):
 
     enc_file = encrypt_file(file.read(), key)
 
-    data = Files(id=file_id, filename=file.filename,
+    filename = secure_filename(file.filename)
+
+    data = Files(id=file_id, filename=filename,
                  file=enc_file, date=creation_date, owner=owner)
     db.session.add(data)
     db.session.commit()
