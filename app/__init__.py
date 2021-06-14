@@ -1,8 +1,11 @@
 import os
+import sys
+import logging
 
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from loguru import logger
 
 
 # values for working with db
@@ -31,6 +34,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
+
+
+# logging settings
+log = logging.getLogger("werkzeug")
+log.disabled = True
+
+logger.add(
+    sys.stdout, format="{level}:{extra[url]} - - {extra[timestamp]} {extra[method]} {extra[path]} {extra[status]} {message}")
+
+logger.add("logs/warning/warning.log",
+           format="{level}:{extra[url]} - - {extra[timestamp]} {extra[method]} {extra[path]} {extra[status]} {message}", level="WARNING", rotation="7:00", compression="zip")
+logger.add("logs/debug/debug.log",
+           format="{level}:{extra[url]} - - {extra[timestamp]} {extra[method]} {extra[path]} {extra[status]} {message}", level="DEBUG", rotation="7:00", compression="zip")
 
 
 from app import models, routes, functions

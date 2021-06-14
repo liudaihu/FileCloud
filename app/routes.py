@@ -1,6 +1,9 @@
+from time import strftime
+
 from flask import *
 from flask_login import login_user, login_required, logout_user, current_user
 from flask_bcrypt import check_password_hash
+from loguru import logger
 
 from app import app, db, login_manager, SALT
 from app.models import *
@@ -25,7 +28,7 @@ def user_page(user_id):
 @app.route("/login/", methods=['GET', 'POST'])
 def login_page():
     if current_user.is_authenticated:
-        return redirect(f"/{current_user.id}")
+        return redirect(url_for("user_page", user_id=current_user.id))
     elif request.method == 'POST':
         session.pop("_flashes", None)
         login = request.form.get("login").replace(' ', '')
@@ -37,6 +40,7 @@ def login_page():
             if user:
                 if check_password_hash(user.password, password+SALT):
                     login_user(user, remember=remember_me)
+                    logger.info(f"User {user.id} logged in")
                     flash("You has been succesfully logged in!", "success")
                     return redirect(url_for("main_page"))
                 flash("The password is wrong!", "danger")
@@ -76,6 +80,7 @@ def registration_page():
             login_user(user)
             generate_user_key(user.id)
 
+            logger.info(f"User {user.id} registered")
             flash("You has been succesfully registered!", "success")
             return redirect(url_for("main_page"))
         else:
@@ -90,19 +95,26 @@ def registration_page():
 @app.route("/logout/")
 @login_required
 def logout_page():
+    account_name = current_user.id
+
     logout_user()
+
+    logger.info(f"User {account_name} logged out")
     flash("You succesfully logged out!", "success")
-    return redirect(url_for('login_page'))
+    return redirect(url_for("login_page"))
 
 
 @app.route("/delete-account/")
 @login_required
 def delete_account_page():
+    account_name = current_user.id
+
     del_user(current_user)
     logout_user()
 
+    logger.info(f"User {account_name} deleted")
     flash("Your account has been succesfully deleted!", "success")
-    return redirect(url_for('login_page'))
+    return redirect(url_for("login_page"))
 
 
 # file pages
@@ -121,6 +133,7 @@ def files_page(user_id):
 def download_all_files_page(user_id):
     key = get_user_key(user_id)
     archive = create_archive(user_id, key)
+    logger.info("Archive created")
     return send_file(archive, attachment_filename="All files.zip", as_attachment=True)
 
 
@@ -132,9 +145,10 @@ def upload_file_page(user_id):
         file = request.files['inputFile']
         upload_file(user_id, file)
 
+        logger.info("File pushed to db")
         flash(
             f'File "{file.filename}" has been pushed to your disk!', "success")
-        return redirect(f"/{user_id}/files")
+        return redirect(url_for("files_page", user_id=current_user.id))
     return abort(403)
 
 
@@ -145,6 +159,7 @@ def download_file_page(user_id, file_id):
         file = Files.query.filter_by(id=file_id, owner=user_id).first()
         if file != None:
             dec_file = download_file(user_id, file.file)
+            logger.info("File downloaded")
             return send_file(dec_file, attachment_filename=file.filename, as_attachment=True)
         return abort(404)
     return abort(403)
@@ -155,25 +170,39 @@ def download_file_page(user_id, file_id):
 def delete_file_page(user_id, file_id):
     if user_id == current_user.id:
         del_file(user_id, file_id)
+        logger.info("File deleted")
         flash(f"File has been succesfully deleted!", "success")
-        return redirect(f"/{user_id}/files")
+        return redirect(url_for("files_page", user_id=current_user.id))
     return abort(403)
 
 
-# errors
-@app.errorhandler(401)
-def unauthorized(e):
-    return render_template("unauthorized.html"), 401
+# errors processing
+@app.errorhandler(Exception)
+def all_http_errors_handler(error):
+    return render_template("error.html", err_code=error.code, err_desc=error.description), error.code
 
 
-@app.errorhandler(403)
-def page_not_found(e):
-    return render_template("forbidden.html"), 403
+# logging
+@app.after_request
+def after_request(response):
+    timestamp = strftime("[%d-%b-%Y %H:%M:%S]")
+    url = request.remote_addr
+    method = request.method
+    path = request.full_path
+    status = response.status
 
+    if not "/static/" in path:
+        global logger
+        logger = logger.bind(url=url, timestamp=timestamp,
+                             method=method, path=path, status=status)
+        if status[0] == '5':
+            logger.error('')
+        elif status[0] == '4':
+            logger.warning('')
+        else:
+            logger.debug('')
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template("not_found.html"), 404
+    return response
 
 
 # load user for flask-login

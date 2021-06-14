@@ -3,7 +3,7 @@
 ## Backend
 [x] Add files encryption
 [x] Remake "Download all files" function
-[?] Add logging
+[x] Add logging
 [-] Add key salt
 [x] Use secure filename
 [x] Rebase 'key' table to sqlite3

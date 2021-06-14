@@ -1,6 +1,7 @@
 .venv
 __pycache__
 .vscode
+logs
 
 requirements.txt
 system_envs.sh
