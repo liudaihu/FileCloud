@@ -1,0 +1,13 @@
+# FileCloud
+
+## Backend
+[x] Add files encryption
+[x] Remake "Download all files" function
+[x] Add logging
+[-] Add key salt
+[x] Use secure filename
+[x] Rebase 'key' table to sqlite3
+[x] Add salt to passwords
+[x] Clear requirements
+[x] Clear the code
+## Frontend

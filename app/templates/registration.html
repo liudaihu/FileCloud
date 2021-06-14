@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Registration page{% endblock %}
+
+{% block content %}
+<h1>Registration</h1><br>
+<form action="/register/" method="post">
+    <div class="input-group mb-3">
+        <span class="input-group-text">Name</span>
+        <input type="text" class="form-control" placeholder="Your name" name="name">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Surname</span>
+        <input type="text" class="form-control" placeholder="Your surname" name="surname">
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">Age</span>
+        <input type="number" class="form-control" placeholder="Your age" name="age">
+    </div>
+    <div class="btn-group" role="group">
+        <div class="input-group-text" id="genderAttribute">Gender</div>
+        <input type="radio" class="btn-check" name="gender" id="m" autocomplete="off" value="M">
+        <label class="btn btn-outline-secondary" for="m">Male</label>
+        <input type="radio" class="btn-check" name="gender" id="f" autocomplete="off" value="F">
+        <label class="btn btn-outline-secondary" for="f">Female</label>
+    </div><br><br>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/envelope.svg')}}" width="16"
+                height="16"></object></span>
+        <input type="text" class="form-control" placeholder="Your email" name="email">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/asterisk.svg')}}" width="16"
+                height="16"></object></span>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/at.svg')}}" width="16"
+                height="16"></object></span>
+        <input type="text" class="form-control" placeholder="Username" name="username">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/asterisk.svg')}}" width="16"
+                height="16"></object></span>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/shield-lock.svg')}}"
+                width="16" height="16"></object></span>
+        <input type="password" class="form-control" placeholder="Your password" name="password">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/asterisk.svg')}}" width="16"
+                height="16"></object></span>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/shield-lock.svg')}}"
+                width="16" height="16"></object></span>
+        <input type="password" class="form-control" placeholder="Repeat your password" name="password-repeat">
+        <span class="input-group-text"><object data="{{ url_for('static', filename='icons/asterisk.svg')}}" width="16"
+                height="16"></object></span>
+    </div>
+    <button type="submit" class="btn btn-success">Sign up</button><br><br>
+</form>
+{% for cat, msg in get_flashed_messages(with_categories=true) %}
+<div class="alert alert-{{ cat }}" role="alert">
+    {{ msg }}
+</div>
+{% endfor %}
+{% endblock %}

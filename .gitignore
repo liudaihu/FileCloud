@@ -1,3 +1,7 @@
 .venv
 __pycache__
-user_files
+.vscode
+logs
+
+requirements.txt
+system_envs.sh
